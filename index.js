@@ -1,24 +1,28 @@
 let ctx = document.getElementById("canvasMoto");
 let canvasMoto = ctx.getContext("2d");
+
 let backImg = new Image();
 let motoImg = new Image();
 let boxImg = new Image();
 let coinImg = new Image();
-backImg.src = "https://st.gamevui.com/images/image/2017/08/21/duong-dua-khac-nghiet-hd1.jpg";
-motoImg.src = "https://media.istockphoto.com/id/1151058903/vi/vec-to/xe-%C4%91ua-nh%C3%ACn-t%E1%BB%AB-tr%C3%AAn-cao.jpg?s=1024x1024&w=is&k=20&c=ujfE33-DOR4cnS5yQegfdYvn1gr0HOtaw-JhySVtBSo=";
-boxImg.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW6O2wbv68dorOKeDVkrOvE_CFR9ozdkkRtg&usqp=CAU";
-coinImg.src = "https://img.lovepik.com/free-png/20210928/lovepik-game-shopping-consumption-gold-coins-png-image_401751616_wh1200.png";
+
+backImg.src = "img/map2.jpg";
+motoImg.src = "img/truTri.jpg";
+boxImg.src = "img/yeuQuai.jpg";
+coinImg.src = "img/sachThanh.jpg";
+
 ctx.width = 1100;
 ctx.height = 720;
 let mapHeight = ctx.height * 10;
+
 function Map() {
     this.x = 0;
     this.y = -mapHeight + ctx.height;
     this.newY = function () {
-        this.y += 60;
+        this.y += 20;
     }
     this.update = function () {
-        if (this.y >= 0) {
+        if (this.y >= -350*10) {
             this.y = -mapHeight + ctx.height;
             canvasMoto.drawImage(backImg, 0, this.y, ctx.width, mapHeight);
 
@@ -35,7 +39,7 @@ function Moto() {
     this.x = ctx.width / 2;
     this.y = ctx.height - 60;
     this.newY = function () {
-        this.y -= 0.5;
+        this.y -= 0.1;
         map.newY();
     }
     this.newX = function (value) {
@@ -46,7 +50,7 @@ function Moto() {
         }
     }
     this.update = function () {
-        this.y -= 0.5;
+        this.y -= 0.1;
         canvasMoto.clearRect(0, 0, ctx.width, ctx.height);
         map.update();
         canvasMoto.drawImage(motoImg, this.x, this.y, 40, 60);
@@ -123,16 +127,18 @@ let box = new BoxRandom();
 let coin = new CoinRandom();
 
 function loopGame() {
-
     moto.update();
     box.update();
     coin.update();
     canvasMoto.font = "30px Arial";
     canvasMoto.fillText(coin.count, 100, 100);
 }
+
+let game;
+
 let playGame = document.getElementById("play");
 playGame.addEventListener("click", startGame);
-let game;
+
 function startGame() {
     playGame.style.display = "none";
     game = setInterval(loopGame, 1000 / 60);
